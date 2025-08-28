@@ -1,0 +1,23 @@
+- name: bug
+  color: b60205
+  description: Ajuste de erros no código
+
+- name: documentation
+  color: 0075ca
+  description: Documentação
+
+- name: feat
+  color: 0e8a16
+  description: Novas funcionalidades
+
+- name: fix
+  color: 9cb1be
+  description: Correções rápidas
+
+- name: refactor
+  color: d256f2
+  description: Refatoração do código
+
+- name: first
+  color: 5319e7
+  description: Primeiro commit
