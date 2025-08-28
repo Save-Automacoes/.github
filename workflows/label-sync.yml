@@ -1,17 +1,30 @@
-name: Sync Labels
+name: Add default labels to new repos
 
 on:
-  push:
-    branches:
-      - main  
-  workflow_dispatch:  #
+  repository:
+    types: [created]
 
 jobs:
-  sync:
+  add-labels:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ahmadnassri/action-label-sync@v1
-        with:
-          repo-token: ${{ secrets.ORG_LABEL_TOKEN }}
-          configuration-path: .github/labels.yml
+      - name: Configure GitHub CLI
+        uses: actions/setup-gh-cli@v3
+
+      - name: Add labels
+        run: |
+          ORG="${{ github.repository_owner }}"
+          REPO="${{ github.event.repository.name }}"
+          
+          # ignora o repo .github da org
+          if [ "$REPO" = ".github" ]; then
+            exit 0
+          fi
+
+          # criar labels
+          gh label create bug --repo $ORG/$REPO --color b60205 --description "Ajuste de erros no código" || true
+          gh label create documentation --repo $ORG/$REPO --color 0075ca --description "Documentação" || true
+          gh label create feat --repo $ORG/$REPO --color 0e8a16 --description "Novas funcionalidades" || true
+          gh label create fix --repo $ORG/$REPO --color 9cb1be --description "Correções rápidas" || true
+          gh label create refactor --repo $ORG/$REPO --color d256f2 --description "Refatoração do código" || true
+          gh label create first --repo $ORG/$REPO --color 5319e7 --description "Primeiro commit" || true
