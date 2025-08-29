@@ -7,9 +7,14 @@ on:
 jobs:
   add-labels:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
-      - name: Configure GitHub CLI
+      - name: Setup GitHub CLI
         uses: actions/setup-gh-cli@v3
+
+      - name: Authenticate GH CLI
+        run: echo "${{ secrets.ORG_LABEL_SECRET }}" | gh auth login --with-token
 
       - name: Add labels
         run: |
