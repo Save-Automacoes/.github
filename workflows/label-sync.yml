@@ -13,15 +13,13 @@ jobs:
 
       - name: Add labels
         run: |
-          ORG="${{ github.repository_owner }}"
+          ORG="Save-Automacoes"
           REPO="${{ github.event.repository.name }}"
           
-          # ignora o repo .github da org
           if [ "$REPO" = ".github" ]; then
             exit 0
           fi
 
-          # criar labels
           gh label create bug --repo $ORG/$REPO --color b60205 --description "Ajuste de erros no código" || true
           gh label create documentation --repo $ORG/$REPO --color 0075ca --description "Documentação" || true
           gh label create feat --repo $ORG/$REPO --color 0e8a16 --description "Novas funcionalidades" || true
